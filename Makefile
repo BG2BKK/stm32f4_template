@@ -11,6 +11,7 @@ PROJ_NAME=main
 ###################################################
 
 CC=arm-none-eabi-gcc
+SIZE=arm-none-eabi-size
 OBJCOPY=arm-none-eabi-objcopy
 
 CFLAGS  = -g -O2 -Wall -TLinkerScript.ld -DUSE_STDPERIPH_DRIVER
@@ -45,9 +46,13 @@ $(PROJ_NAME).elf: $(SRCS)
 	$(CC) $(CFLAGS) $^ -o $@ -LStdPeriph_Driver -lstm32f4
 	$(OBJCOPY) -O ihex $(PROJ_NAME).elf $(PROJ_NAME).hex
 	$(OBJCOPY) -O binary $(PROJ_NAME).elf $(PROJ_NAME).bin
+	@echo "" 
+	$(SIZE) $(PROJ_NAME).elf
+	@echo "" 
+	$(SIZE) $(PROJ_NAME).hex
 
 clean:
-	$(MAKE) -C StdPeriph_Driver clean
+#	$(MAKE) -C StdPeriph_Driver clean
 	rm -f $(PROJ_NAME).elf
 	rm -f $(PROJ_NAME).hex
 	rm -f $(PROJ_NAME).bin
