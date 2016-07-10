@@ -53,3 +53,19 @@ clean:
 	rm -f $(PROJ_NAME).bin
 	rm -rf Debug Release
 	rm -f *~ out core
+
+flash:
+	st-flash --reset write main.bin 0x08000000
+
+debug:
+	echo "echo Executing GDB with .gdbinit to connect to OpenOCD. \n" > .gdbinit
+	echo "echo .gdbinit is a hidden file.\n echo Press Ctrl-H in the current working directory to see it. \n" >> .gdbinit
+	echo "# Connect to OpenOCD" >> .gdbinit
+	echo "target extended-remote localhost:4242" >> .gdbinit
+	echo "# Reset the target and call its init script" >> .gdbinit
+	echo "monitor reset init" >> .gdbinit
+	echo "# Halt the target. The init script should halt the target, but just in case" >> .gdbinit
+	echo "monitor halt" >> .gdbinit
+	echo "b main" >> .gdbinit
+	echo "jump main" >> .gdbinit
+	arm-none-eabi-gdb main.elf -iex 'add-auto-load-safe-path .'
