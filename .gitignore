@@ -4,3 +4,5 @@
 *.bin
 *.elf
 *.hex
+/Debug/
+/Release/

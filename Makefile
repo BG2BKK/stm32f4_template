@@ -39,15 +39,15 @@ all: lib proj
 lib:
 	$(MAKE) -C StdPeriph_Driver
 
-proj: 	$(PROJ_NAME).elf
+proj: 	$(PROJ_NAME).elf 
 
-$(PROJ_NAME).elf: $(SRCS)
+$(PROJ_NAME).elf: $(SRCS)  
 	$(CC) $(CFLAGS) $^ -o $@ -LStdPeriph_Driver -lstm32f4
 	$(OBJCOPY) -O ihex $(PROJ_NAME).elf $(PROJ_NAME).hex
 	$(OBJCOPY) -O binary $(PROJ_NAME).elf $(PROJ_NAME).bin
 
 clean:
-#	$(MAKE) -C StdPeriph_Driver clean
+	$(MAKE) -C StdPeriph_Driver clean
 	rm -f $(PROJ_NAME).elf
 	rm -f $(PROJ_NAME).hex
 	rm -f $(PROJ_NAME).bin
